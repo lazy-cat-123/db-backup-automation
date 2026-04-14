@@ -6,7 +6,7 @@ MySQL Database full backup automation with Bash script including Python script t
 
 ## How it works
 
-	This system is an automatic data backup. It follows four simple steps to make sure your information is always safe:
+This system is an automatic data backup. It follows four simple steps to make sure your information is always safe:
 
 1. The Container (Docker): 
 	
