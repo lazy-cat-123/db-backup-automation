@@ -6,8 +6,6 @@ MySQL Database full backup automation with Bash script including Python script t
 
 ## How it works
 
-This system is an automatic data backup. It follows four simple steps to make sure your information is always safe:
-
 1. The Container (Docker): 
 	
 	The MySQL database lives inside a Docker Container. This keeps it separate from the rest of your computer, making it clean and safe.
@@ -23,6 +21,16 @@ This system is an automatic data backup. It follows four simple steps to make su
 4. The Automation (Cron): 
 
 	A built-in timer called "Cron" runs the entire process every day at a time you choose (like 3:00 AM).
+
+5. Process loop
+	1. Crontab call `db_backup.sh` script and execute it.
+   	2. The bash script create backup folder if it doesn't yet.
+   	3. Create temporary `${FILE_NAME}.temp` file and fill with mysqldump during backup process.
+   	4. Zip temp file after finish backup using `gzip`.
+   	5. Ensure exit status
+   		* If backup sucess (exit status = 0): change temporary file to file with `.sql.gz` , call `send_notif.py` script to send notification email.
+   	 	* If backup failed: remove temporary file, call `send_notif.py` script to send notification email.
+	6. Romove the backup files in backup folder that older than retention days defind with `$RETENTION_DAYS`  
 
 ---
 
@@ -40,6 +48,7 @@ This system is an automatic data backup. It follows four simple steps to make su
 * External Account
 	* Gmail Account: that enabled Multi-Factor Authentication (MFA).
 	* Gmail App Password: to use with the email sending script
+   		* About creating Gmail app password: [Gmail Help](https://support.google.com/mail/answer/185833?hl=en)
 
 1. Download the Project
 
